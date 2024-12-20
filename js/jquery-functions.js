@@ -302,8 +302,8 @@ $("document").ready(function () {
     const errorEnd = document.createElement("h5");
     const error =
       currentLanguage === "greek"
-        ? "Λυπούμαστε αλλά δεν δικαιούστε το δελτίο μετακίνησης ΑΜΕΑ!"
-        : "We are sorry but you are not entitled to the transportation card for the disabled!";
+        ? "Λυπούμαστε αλλά δεν δικαιούστε άδεια οπλοφορίας."
+        : "We are sorry but you are not eligible for firearm license.";
     errorEnd.className = "govgr-error-summary";
     errorEnd.textContent = error + " " + message;
     $(".question-container").html(errorEnd);
@@ -325,74 +325,6 @@ $("document").ready(function () {
       var answer = sessionStorage.getItem("answer_" + i);
       allAnswers.push(answer);
     }
-    if (allAnswers[0] === "2") {
-      getEvidencesById(9);
-    }
-    if (allAnswers[2] === "4") {
-      getEvidencesById(11);
-    }
-    if (allAnswers[4] === "1") {
-      getEvidencesById(6);
-    } else if (allAnswers[4] === "2") {
-      getEvidencesById(7);
-    } else if (allAnswers[4] === "3") {
-      getEvidencesById(8);
-    }
-    if (
-      allAnswers[5] === "1" ||
-      (allAnswers[5] === "2")
-    ) {
-      getEvidencesById(10);
-      currentLanguage === "greek"
-        ? setResult("Δικαιούται και ο συνοδός το ίδιο δελτίο μετακίνησης.")
-        : setResult("The companion is also entitled with the same transportation card.");
-    }
-
-    if (allAnswers[6] === "2") {
-      getEvidencesById(3);
-      getEvidencesById(4);
-    } else if (allAnswers[6] === "3") {
-      getEvidencesById(3);
-      getEvidencesById(5);
-    }
-    if (allAnswers[7] === "1") {
-      getEvidencesById(12);
-      currentLanguage === "greek"
-      ? setResult(
-          "Δικαιούστε έκπτωση 50% για τις εκτός ορίων της περιφέρειας σας μετακινήσεις με υπεραστικά ΚΤΕΛ."
-        )
-      : setResult(
-          "You are entitled to a 50% discount for transportation outside the boundaries of your region with long-distance bus services (named KTEL)."
-        );
-    } else if (allAnswers[7] === "2" && allAnswers[5] !== "1") {
-      getEvidencesById(2);
-      if (allAnswers[8] === "1") {
-        currentLanguage === "greek"
-          ? setResult(
-              "Δικαιούσαι δωρεάν μετακίνησης με τα αστικά μέσα συγκοινωνίας της περιφέρειας σου και έκπτωση 50% για τις εκτός ορίων της περιφέρειας σου μετακινήσεις με υπεραστικά ΚΤΕΛ."
-            )
-          : setResult(
-              "You are entitled to free transportation with the urban public bus of your region and a 50% discount for transportation outside the boundaries of your region with long-distance (intercity) bus services (named KTEL)."
-            );
-      } else if (allAnswers[8] === "2") {
-        currentLanguage === "greek"
-          ? setResult(
-              "Δικαιούσαι έκπτωση 50% για τις εκτός ορίων της περιφέρειας σου μετακινήσεις με υπεραστικά ΚΤΕΛ."
-            )
-          : setResult(
-              "You are entitled to a 50% discount for transportation outside the boundaries of your region with long-distance bus services (named KTEL)."
-            );
-      }
-    }
-    else if(allAnswers[7] === "2" && allAnswers[5] === "1"){
-      currentLanguage === "greek"
-      ? setResult(
-          "Δικαιούσαι δωρεάν μετακίνησης με τα αστικά μέσα συγκοινωνίας της περιφέρειας σου και έκπτωση 50% για τις εκτός ορίων της περιφέρειας σου μετακινήσεις με υπεραστικά ΚΤΕΛ."
-        )
-      : setResult(
-          "You are entitled to free transportation with the urban public bus of your region and a 50% discount for transportation outside the boundaries of your region with long-distance (intercity) bus services (named KTEL)."
-        );
-    }
   }
 
   function submitForm() {
@@ -409,10 +341,10 @@ $("document").ready(function () {
     evidenceListElement.setAttribute("id", "evidences");
     currentLanguage === "greek"
       ? $(".question-container").append(
-          "<br /><br /><h5 class='answer'>Τα δικαιολογητικά που πρέπει να προσκομίσετε για να λάβετε το δελτίο μετακίνησης είναι τα εξής:</h5><br />"
+          "<br /><br /><h5 class='answer'>Τα δικαιολογητικά που πρέπει να προσκομίσετε για να λάβετε την άδεια είναι τα εξής:</h5><br />"
         )
       : $(".question-container").append(
-          "<br /><br /><h5 class='answer'>The documents you need to provide in order to receive your transportation card are the following:</h5><br />"
+          "<br /><br /><h5 class='answer'>The documents you need to provide in order to receive your license are the following:</h5><br />"
         );
     $(".question-container").append(evidenceListElement);
     $("#faqContainer").load("faq.html");
@@ -427,15 +359,22 @@ $("document").ready(function () {
           $('input[name="question-option"]:checked')
         ) + 1;
       console.log(selectedRadioButtonIndex);
-      if (currentQuestion === 0 && selectedRadioButtonIndex === 3) {
+      console.log(currentQuestion);
+      if (currentQuestion === 0 && selectedRadioButtonIndex === 2) {
         currentQuestion = -1;
-        currentLanguage === "greek" ? skipToEnd("Μπορείτε να το εκδώσετε ξανά μόνο μια φορά μετά από απώλεια.") : skipToEnd("You can reissue it only one time after loss.");
-      } else if (currentQuestion === 1 && selectedRadioButtonIndex === 2) {
+        currentLanguage === "greek" ? skipToEnd("Πρέπει να είσαι πάνω από 18.") : skipToEnd("You must be older than 18 years old.");
+      } else if (currentQuestion === 1 && selectedRadioButtonIndex === 1) {
         currentQuestion = -1;
-        currentLanguage === "greek" ? skipToEnd("Πρέπει να είστε μόνιμος και νόμιμος κάτοικος της Ελλάδας.") : skipToEnd("You must be permanent and legal resident of Greece.");
-      } else if (currentQuestion === 3 && selectedRadioButtonIndex === 2) {
+        currentLanguage === "greek" ? skipToEnd("Δεν πρέπει να πάσχεται από ψυχική ασθένεια.") : skipToEnd("You must not be mentally ill.");
+      } else if (currentQuestion === 2 && selectedRadioButtonIndex === 1) {
         currentQuestion = -1;
-        currentLanguage === "greek" ? skipToEnd("Πρέπει να έχετε ποσοστό αναπηρίας 67% και άνω ή να είστε δικαιούχος του επιδόματος ΟΠΕΚΑ.") : skipToEnd("You must have a disability rate of 67% or more or be a beneficiary of the OPEKA benefit.");
+        currentLanguage === "greek" ? skipToEnd("Δεν πρέπει να είσαι καταδικασμένος αμετάκλητα.") : skipToEnd("You must not be irrevocably convicted.");
+      } else if (currentQuestion == 3 && selectedRadioButtonIndex == 2) {
+        currentQuestion = -1;
+        currentLanguage === "greek" ? skipToEnd("Πρέπει να είσαι κάτοικος κράτους μέλους της ΕΕ.") : skipToEnd("You must be a resident of a country that is part of the EU.");
+      } else if (currentQuestion == 4 && selectedRadioButtonIndex == 2) {
+        currentQuestion = -1;
+        currentLanguage === "greek" ? skipToEnd("Μπορεί να πάρεις άδεια μόνο για όπλα της προαναφερόμενης κατηγορίας.") : skipToEnd("You can only get a license for firearms of the category mentioned previously.");
       } else {
         //save selectedRadioButtonIndex to the storage
         userAnswers[currentQuestion] = selectedRadioButtonIndex;
@@ -506,3 +445,4 @@ $("document").ready(function () {
     });
   });
 });
+
